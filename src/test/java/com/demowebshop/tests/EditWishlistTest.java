@@ -17,26 +17,56 @@ public class EditWishlistTest extends BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         WishlistPage wishlistPage = new WishlistPage(driver);
 
+        System.out.println("========== EDIT WISHLIST TEST ==========");
+
         // Login
         headerPage.clickLogin();
         loginPage.login(TestData.email, TestData.password);
 
+        System.out.println("User Logged In Successfully");
+
         // Open Wishlist
         wishlistPage.openWishlist();
 
-        // Update Quantity
-        wishlistPage.updateThirdAlbumQuantity("5");
+        System.out.println("Wishlist Opened");
 
-        // Click Update Wishlist
+        // Update Quantity
+        String expectedQuantity = "5";
+
+        wishlistPage.updateThirdAlbumQuantity(expectedQuantity);
         wishlistPage.clickUpdateWishlist();
 
-        // Validate Quantity
+        String actualQuantity = wishlistPage.getThirdAlbumQuantity();
+
+        System.out.println("\n========== WISHLIST VERIFICATION ==========");
+        System.out.println("Expected Quantity : " + expectedQuantity);
+        System.out.println("Actual Quantity   : " + actualQuantity);
+
         Assert.assertEquals(
-                wishlistPage.getThirdAlbumQuantity(),
-                "5",
+                actualQuantity,
+                expectedQuantity,
                 "Wishlist quantity was not updated."
         );
 
+        System.out.println("Quantity Verification : PASSED");
+
+        // Refresh page to verify persistence
+        driver.navigate().refresh();
+
+        wishlistPage.openWishlist();
+
+        String quantityAfterRefresh = wishlistPage.getThirdAlbumQuantity();
+
+        System.out.println("\nQuantity After Refresh : " + quantityAfterRefresh);
+
+        Assert.assertEquals(
+                quantityAfterRefresh,
+                expectedQuantity,
+                "Wishlist quantity did not persist after refresh."
+        );
+
+        System.out.println("Persistence Verification : PASSED");
         System.out.println("Wishlist Updated Successfully");
+
     }
 }

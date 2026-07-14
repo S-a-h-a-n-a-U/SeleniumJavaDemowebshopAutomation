@@ -21,29 +21,40 @@ public class MultipleAddressCheckoutTest extends BaseTest {
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         OrderConfirmationPage orderConfirmationPage = new OrderConfirmationPage(driver);
 
+        System.out.println("========== MULTIPLE ADDRESS CHECKOUT TEST ==========");
+
         // Login
         headerPage.clickLogin();
         loginPage.login(TestData.email, TestData.password);
 
+        System.out.println("User Logged In Successfully");
+
         // Open Addresses
         myAccountPage.openMyAccount();
         addressPage.openAddresses();
+
+        System.out.println("Address Page Opened");
 
         // Add Second Address
         addressPage.clickAddNew();
         addressPage.addSecondAddress();
         addressPage.saveAddress();
 
+        System.out.println("Second Address Added Successfully");
+
         Thread.sleep(2000);
 
         // Open Books
         driver.get("https://demowebshop.tricentis.com/books");
         Thread.sleep(2000);
+
         booksPage.openComputingBook();
 
         // Add Product
         productPage.clickAddToCart();
         productPage.waitForNotificationToDisappear();
+
+        System.out.println("Book Added To Cart");
 
         // Shopping Cart
         headerPage.clickShoppingCart();
@@ -53,6 +64,9 @@ public class MultipleAddressCheckoutTest extends BaseTest {
 
         // Checkout
         checkoutPage.enterBillingAddress();
+
+        System.out.println("Billing Address Selected Successfully");
+
         checkoutPage.continueBilling();
 
         Thread.sleep(2000);
@@ -77,13 +91,31 @@ public class MultipleAddressCheckoutTest extends BaseTest {
 
         Thread.sleep(3000);
 
-        Assert.assertTrue(
-                orderConfirmationPage.getSuccessMessage()
-                        .contains("successfully processed"));
+        String successMessage = orderConfirmationPage.getSuccessMessage();
+        String orderNumber = orderConfirmationPage.getOrderNumber();
 
-        System.out.println("======================================");
+        System.out.println("\n========== ORDER VERIFICATION ==========");
+
+        System.out.println("Expected Message : Your order has been successfully processed!");
+        System.out.println("Actual Message   : " + successMessage);
+
+        Assert.assertTrue(
+                successMessage.contains("successfully processed"),
+                "Checkout failed."
+        );
+
+        System.out.println("Checkout Verification : PASSED");
+
+        System.out.println("\nExpected : Order Number should be generated");
+        System.out.println("Actual   : " + orderNumber);
+
+        Assert.assertFalse(
+                orderNumber.isEmpty(),
+                "Order number was not generated."
+        );
+
+        System.out.println("Order Number Verification : PASSED");
         System.out.println("Checkout with Multiple Address Passed");
-        System.out.println(orderConfirmationPage.getOrderNumber());
-        System.out.println("======================================");
+
     }
 }

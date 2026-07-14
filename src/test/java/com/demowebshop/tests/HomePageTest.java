@@ -1,8 +1,8 @@
-
 package com.demowebshop.tests;
 
 import com.demowebshop.base.BaseTest;
 import com.demowebshop.pages.HomePage;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class HomePageTest extends BaseTest {
@@ -14,6 +14,12 @@ public class HomePageTest extends BaseTest {
 
         homePage.clickRegister();
 
-        System.out.println("Register link clicked successfully.");
+        String expectedTitle = "Demo Web Shop. Register";
+        String actualTitle = driver.getTitle();
+
+        Assert.assertEquals(actualTitle, expectedTitle,
+                "Register page is not displayed.");
+
+        System.out.println("Register page opened successfully.");
     }
 }

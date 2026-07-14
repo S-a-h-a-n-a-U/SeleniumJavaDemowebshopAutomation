@@ -19,17 +19,25 @@ public class CheckoutTest extends BaseTest {
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         OrderConfirmationPage orderConfirmationPage = new OrderConfirmationPage(driver);
 
+        System.out.println("========== CHECKOUT TEST ==========");
+
         // Login
         headerPage.clickLogin();
         loginPage.login(TestData.email, TestData.password);
+
+        System.out.println("User Logged In Successfully");
 
         // Open Books
         booksPage.openBooks();
         booksPage.openComputingBook();
 
+        System.out.println("Book Selected Successfully");
+
         // Add Book to Cart
         productPage.clickAddToCart();
         productPage.waitForNotificationToDisappear();
+
+        System.out.println("Book Added To Cart");
 
         // Open Shopping Cart
         headerPage.clickShoppingCart();
@@ -44,25 +52,23 @@ public class CheckoutTest extends BaseTest {
 
         Thread.sleep(2000);
 
-// Shipping Address
+        // Shipping Address
         checkoutPage.continueShippingAddress();
 
         Thread.sleep(2000);
 
-// Shipping Method
+        // Shipping Method
         checkoutPage.continueShippingMethod();
 
         Thread.sleep(2000);
 
-// Payment Method
+        // Payment Method
         checkoutPage.continuePaymentMethod();
 
         Thread.sleep(2000);
 
-// Payment Information
+        // Payment Information
         checkoutPage.continuePaymentInfo();
-
-        Thread.sleep(2000);
 
         Thread.sleep(2000);
 
@@ -71,15 +77,31 @@ public class CheckoutTest extends BaseTest {
 
         Thread.sleep(3000);
 
-        // Validation
-        Assert.assertTrue(
-                orderConfirmationPage.getSuccessMessage()
-                        .contains("successfully processed"),
-                "Order creation failed.");
+        String successMessage = orderConfirmationPage.getSuccessMessage();
+        String orderNumber = orderConfirmationPage.getOrderNumber();
 
-        System.out.println("==================================");
-        System.out.println(orderConfirmationPage.getSuccessMessage());
-        System.out.println(orderConfirmationPage.getOrderNumber());
-        System.out.println("==================================");
+        System.out.println("\n========== ORDER VERIFICATION ==========");
+        System.out.println("Expected Message : Your order has been successfully processed!");
+        System.out.println("Actual Message   : " + successMessage);
+
+        Assert.assertTrue(
+                successMessage.contains("successfully processed"),
+                "Order creation failed."
+        );
+
+        System.out.println("Order Success Message : PASSED");
+
+        System.out.println("\nExpected : Order Number should be generated");
+        System.out.println("Actual   : " + orderNumber);
+
+        Assert.assertFalse(
+                orderNumber.isEmpty(),
+                "Order number was not generated."
+        );
+
+        System.out.println("Order Number Verification : PASSED");
+
+        System.out.println("\nCheckout Successful");
+
     }
 }

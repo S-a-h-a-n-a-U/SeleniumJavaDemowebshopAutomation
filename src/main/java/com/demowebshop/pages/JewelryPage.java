@@ -18,6 +18,9 @@ public class JewelryPage extends BasePage {
     private final By addToCompareButton =
             By.cssSelector("input.button-2.add-to-compare-list-button");
 
+    private final By notificationBar =
+            By.cssSelector("div.bar-notification.success");
+
     public void openDiamondBracelet() {
         click(diamondBracelet);
     }
@@ -27,7 +30,12 @@ public class JewelryPage extends BasePage {
     }
 
     public void addCurrentProductToCompare() {
+
         click(addToCompareButton);
+
+        waitUtility.waitForElementVisible(notificationBar);
+
+        waitUtility.waitForElementInvisible(notificationBar);
     }
 
     public void goBack() {

@@ -12,14 +12,31 @@ public class SearchTest extends BaseTest {
 
         SearchPage searchPage = new SearchPage(driver);
 
-        searchPage.searchProduct("Laptop");
+        String searchKeyword = "Laptop";
 
-        Assert.assertTrue(searchPage.isProductDisplayed());
+        System.out.println("========== PRODUCT SEARCH TEST ==========");
+        System.out.println("Search Keyword : " + searchKeyword);
+
+        searchPage.searchProduct(searchKeyword);
+
+        Assert.assertTrue(
+                searchPage.isProductDisplayed(),
+                "No product is displayed."
+        );
 
         String productName = searchPage.getProductName();
 
-        System.out.println("Product Found : " + productName);
+        System.out.println("\n========== SEARCH VERIFICATION ==========");
+        System.out.println("Expected Keyword : " + searchKeyword);
+        System.out.println("Actual Product   : " + productName);
 
+        Assert.assertTrue(
+                productName.toLowerCase().contains(searchKeyword.toLowerCase()),
+                "Displayed product does not match the searched keyword."
+        );
+
+        System.out.println("Product Verification : PASSED");
         System.out.println("Search Successful");
+        System.out.println("=========================================");
     }
 }

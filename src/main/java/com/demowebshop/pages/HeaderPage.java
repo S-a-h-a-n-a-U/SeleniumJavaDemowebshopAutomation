@@ -13,6 +13,7 @@ public class HeaderPage extends BasePage {
     private final By registerLink = By.className("ico-register");
     private final By loginLink = By.className("ico-login");
     private final By logoutLink = By.className("ico-logout");
+    private final By loggedInUserEmail = By.className("account");
     private final By wishlistLink = By.className("ico-wishlist");
     private final By shoppingCartLink = By.className("ico-cart");
 
@@ -56,5 +57,9 @@ public class HeaderPage extends BasePage {
 
     public boolean isLoginDisplayed() {
         return isDisplayed(loginLink);
+    }
+
+    public String getLoggedInUserEmail() {
+        return getText(loggedInUserEmail);
     }
 }

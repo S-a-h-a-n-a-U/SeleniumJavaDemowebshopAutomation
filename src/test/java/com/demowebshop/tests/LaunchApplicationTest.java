@@ -14,6 +14,6 @@ public class LaunchApplicationTest extends BaseTest {
 
         Assert.assertEquals(actualTitle, expectedTitle);
 
-        System.out.println("Home Page Title Verified Successfully.");
+        System.out.println("Page Title Verified Successfully.");
     }
 }

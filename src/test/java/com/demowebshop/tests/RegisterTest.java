@@ -15,24 +15,23 @@ public class RegisterTest extends BaseTest {
         HeaderPage headerPage = new HeaderPage(driver);
         RegisterPage registerPage = new RegisterPage(driver);
 
+        String email = TestData.getRandomEmail();
 
         headerPage.clickRegister();
 
         registerPage.selectMaleGender();
         registerPage.enterFirstName("John");
         registerPage.enterLastName("Smith");
-        registerPage.enterEmail(TestData.email);
+        registerPage.enterEmail(email);
         registerPage.enterPassword(TestData.password);
         registerPage.enterConfirmPassword(TestData.password);
 
         registerPage.clickRegisterButton();
 
-
-
         Assert.assertEquals(registerPage.getSuccessMessage(),
                 "Your registration completed");
 
-        System.out.println("Registered Email : " + TestData.email);
+        System.out.println("Registered Email : " + email);
         System.out.println("Password         : " + TestData.password);
     }
 }

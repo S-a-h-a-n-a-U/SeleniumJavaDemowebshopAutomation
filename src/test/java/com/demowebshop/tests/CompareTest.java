@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class CompareTest extends BaseTest {
 
     @Test
-    public void verifyCompareProducts() throws InterruptedException {
+    public void verifyCompareProducts() {
 
         HeaderPage headerPage = new HeaderPage(driver);
         LoginPage loginPage = new LoginPage(driver);
@@ -21,63 +21,29 @@ public class CompareTest extends BaseTest {
 
         System.out.println("========== COMPARE PRODUCTS TEST ==========");
 
-        // Login
         headerPage.clickLogin();
         loginPage.login(TestData.email, TestData.password);
 
-        System.out.println("User Logged In Successfully");
+        System.out.println("Login Successful");
 
-        // Open Jewelry
         headerPage.clickJewelry();
 
-        System.out.println("Jewelry Category Opened");
+        System.out.println("Jewelry Page Opened");
 
-        // Product 1
-        String product1 = "Diamond Tennis Bracelet";
+        String product1 = jewelryPage.addProductToCompare(0);
+        System.out.println(product1 + " added");
 
-        jewelryPage.openDiamondBracelet();
-        jewelryPage.addCurrentProductToCompare();
+        String product2 = jewelryPage.addProductToCompare(1);
+        System.out.println(product2 + " added");
 
-        System.out.println("Added Product : " + product1);
-
-        Thread.sleep(1500);
-
-        jewelryPage.goBack();
-
-        // Product 2
-        String product2 = "Vintage Style Ring";
-
-        jewelryPage.openVintageRing();
-        jewelryPage.addCurrentProductToCompare();
-
-        System.out.println("Added Product : " + product2);
-
-        Thread.sleep(1500);
-
-        // Open Compare Products
         comparePage.openComparePage();
 
-        System.out.println("\n========== COMPARE VERIFICATION ==========");
+        Assert.assertTrue(comparePage.isProductDisplayed(product1),
+                product1 + " not found.");
 
-        Assert.assertTrue(
-                comparePage.isDiamondBraceletDisplayed(),
-                "Diamond Tennis Bracelet not found."
-        );
+        Assert.assertTrue(comparePage.isProductDisplayed(product2),
+                product2 + " not found.");
 
-        System.out.println(product1 + " : PASSED");
-
-        Assert.assertTrue(
-                comparePage.isVintageRingDisplayed(),
-                "Vintage Style Ring not found."
-        );
-
-        System.out.println(product2 + " : PASSED");
-
-        System.out.println("\nCompared Products:");
-        System.out.println("1. " + product1);
-        System.out.println("2. " + product2);
-
-        System.out.println("Compare Products Verified Successfully");
-
+        System.out.println("Compare Test Passed");
     }
 }

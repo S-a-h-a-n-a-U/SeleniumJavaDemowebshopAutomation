@@ -2,7 +2,15 @@ package com.demowebshop.utilities;
 
 public class TestData {
 
-    public static final String email = "John.selenium.demo@gmail.com";
-    public static final String password = "password@123";
+    public static String email;
+    public static final String password = "Test@123";
 
+    static {
+        email = getRandomEmail();
+    }
+
+    public static String getRandomEmail() {
+        email = "user" + System.currentTimeMillis() + "@gmail.com";
+        return email;
+    }
 }

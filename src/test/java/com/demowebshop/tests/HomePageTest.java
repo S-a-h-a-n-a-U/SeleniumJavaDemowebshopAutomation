@@ -20,6 +20,6 @@ public class HomePageTest extends BaseTest {
         Assert.assertEquals(actualTitle, expectedTitle,
                 "Register page is not displayed.");
 
-        System.out.println("Register page opened successfully.");
+        System.out.println("Home page opened successfully.");
     }
 }

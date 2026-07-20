@@ -1,7 +1,11 @@
 package com.demowebshop.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class JewelryPage extends BasePage {
 
@@ -9,36 +13,34 @@ public class JewelryPage extends BasePage {
         super(driver);
     }
 
-    private final By diamondBracelet =
-            By.linkText("Diamond Tennis Bracelet");
+    private final By productLinks =
+            By.cssSelector(".product-title a");
 
-    private final By vintageRing =
-            By.linkText("Vintage Style Three Stone Diamond Engagement Ring");
+    private final By compareButton =
+            By.cssSelector("input[value='Add to compare list']");
 
-    private final By addToCompareButton =
-            By.cssSelector("input.button-2.add-to-compare-list-button");
+    public String addProductToCompare(int index) {
 
-    private final By notificationBar =
-            By.cssSelector("div.bar-notification.success");
+        List<WebElement> products = driver.findElements(productLinks);
 
-    public void openDiamondBracelet() {
-        click(diamondBracelet);
-    }
+        String productName = products.get(index).getText();
 
-    public void openVintageRing() {
-        click(vintageRing);
-    }
+        products.get(index).click();
 
-    public void addCurrentProductToCompare() {
+        WebElement compare =
+                driver.findElement(compareButton);
 
-        click(addToCompareButton);
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", compare);
 
-        waitUtility.waitForElementVisible(notificationBar);
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        waitUtility.waitForElementInvisible(notificationBar);
-    }
-
-    public void goBack() {
         driver.navigate().back();
+
+        return productName;
     }
 }
